@@ -19,13 +19,125 @@ model Parish {
   id        Int      @id @default(autoincrement())
   name     String   @db.VarChar(255)
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   priest  Priest?
+  transaction_headers TransactionHeaders?
 }
 
 model Priest {
   id        Int      @id @default(autoincrement())
   name     String   @db.VarChar(255)
-  parish    Parish @relation(fields: [parishId], references: [id])
-  parishId Int @unique
+  parish    Parish @relation(fields: [parish_id], references: [id])
+  parish_id Int @unique
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  transaction_headers TransactionHeaders?
+}
+
+model Province {
+  id        Int      @id @default(autoincrement())
+  name     String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  city      City?
+  catholic  Catholic?
+}
+
+model City {
+  id        Int      @id @default(autoincrement())
+  name     String   @db.VarChar(255)
+  province Province @relation(fields: [province_id], references: [id])
+  province_id Int @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  barangay Barangay?
+  catholic  Catholic?
+}
+
+model Barangay {
+  id        Int      @id @default(autoincrement())
+  name     String   @db.VarChar(255)
+  city City @relation(fields: [city_id], references: [id])
+  city_id Int @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  catholic  Catholic?
+}
+
+model Catholic{
+  id        Int      @id @default(autoincrement())
+  name     String   @db.VarChar(255)
+  last_name String   @db.VarChar(255)
+  first_name String   @db.VarChar(255)
+  middle_name String   @db.VarChar(255)
+  suffix String   @db.VarChar(255)
+  birth_date DateTime
+  gender String   @db.VarChar(255)
+  address String   @db.VarChar(255)
+  province Province @relation(fields: [province_id], references: [id])
+  province_id Int @unique
+  city City @relation(fields: [city_id], references: [id])
+  city_id Int @unique
+  barangay Barangay  @relation(fields: [barangay_id], references: [id])
+  barangay_id Int @unique
+  mobile String   @db.VarChar(255)
+  email String   @db.VarChar(255)
+  transaction_names TransactionNames?
+  @@map("catholics")
+}
+
+model TransactionType{
+  id        Int      @id @default(autoincrement())
+  name     String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  transaction_headers TransactionHeaders?
+  @@map("transaction_type")
+}
+
+model ModeOfPayment{
+  id        Int      @id @default(autoincrement())
+  name     String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@map("mode_of_payment")
+}
+
+model TransactionHeaders{
+  id        Int      @id @default(autoincrement())
+  transaction_number  Int
+  transaction_date  DateTime
+  transaction_type  TransactionType @relation(fields: [transaction_type_id], references: [id])
+  transaction_type_id Int @unique
+  parish  Parish @relation(fields: [parish_id], references: [id])
+  parish_id Int @unique
+  priest  Priest @relation(fields: [priest_id], references: [id])
+  priest_id Int @unique
+
+  //userId  Int @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  is_cancelled  Boolean @default(false)
+  //cancelled_by  
+  cancelled_at  DateTime
+  transaction_names TransactionNames?
+  transaction_sponso  TransactionSponsor?
+  @@map("transaction_headers")
+}
+
+model TransactionNames{
+  id        Int      @id @default(autoincrement())
+  transaction_headers TransactionHeaders @relation(fields: [transaction_header_id], references: [id])
+  transaction_header_id Int @unique
+  catholic Catholic @relation(fields: [catholic_id], references: [id])
+  catholic_id Int @unique
+  name     String   @db.VarChar(255)
+  @@map("transaction_names")
+}
+
+model TransactionSponsor{
+  transaction_headers TransactionHeaders @relation(fields: [transaction_header_id], references: [id])
+  transaction_header_id Int @unique
+  @@map("transaction_sponsors")
 }
