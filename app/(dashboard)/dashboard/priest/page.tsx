@@ -1,9 +1,10 @@
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import { columns } from '@/components/tables/parish-tables/columns';
-import { ParishClient } from '@/components/tables/parish-tables/client';
+import { PriestClient } from '@/components/tables/priest-tables/client';
 import { buttonVariants } from '@/components/ui/button';
 import { Heading } from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
+import { Priest } from '@/lib/priest-validation';
 import prisma from '@/lib/prisma';
 import { cn } from '@/lib/utils';
 import { count } from 'console';
@@ -12,7 +13,7 @@ import Link from 'next/link';
 
 const breadcrumbItems = [
   { title: 'Dashboard', link: '/dashboard' },
-  { title: 'Parish', link: '/dashboard/parish' }
+  { title: 'Priest', link: '/dashboard/priest' }
 ];
 
 type paramsProps = {
@@ -21,18 +22,25 @@ type paramsProps = {
   };
 };
 
-type Parish = {
-  id: number;
-  name: string;
-};
-
 export default async function page({ searchParams }: paramsProps) {
   const page = Number(searchParams.page) || 1;
   const pageLimit = Number(searchParams.limit) || 10;
   const name = searchParams.search || null;
   const offset = (page - 1) * pageLimit;
 
-  const results = await prisma.parish.findMany({
+  const results = await prisma.priest.findMany({
+    select: {
+      id: true,
+      name: true,
+      parish: {
+        select: {
+          name: true
+        }
+      },
+      designation: true,
+      createdAt: true,
+      updatedAt: true
+    },
     skip: offset,
     take: pageLimit
     // where: {
@@ -41,7 +49,7 @@ export default async function page({ searchParams }: paramsProps) {
     //   }
     // }
   });
-
+  //console.log(results);
   // const res = await fetch(
   //   `https://api.slingacademy.com/v1/sample-data/users?offset=${offset}&limit=${pageLimit}` +
   //     (country ? `&search=${country}` : '')
@@ -49,7 +57,7 @@ export default async function page({ searchParams }: paramsProps) {
   // const employeeRes = await res.json();
   const totalUsers = results.length; //1000
   const pageCount = Math.ceil(totalUsers / pageLimit);
-  const parish: Parish[] = results;
+  const priest: Priest[] = results;
   return (
     <>
       <div className="flex-1 space-y-4  p-4 pt-6 md:p-8">
@@ -70,7 +78,7 @@ export default async function page({ searchParams }: paramsProps) {
         </div> */}
         {/* <Separator /> */}
 
-        <ParishClient data={parish} />
+        <PriestClient data={priest} />
       </div>
     </>
   );

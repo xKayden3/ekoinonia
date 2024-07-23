@@ -7,29 +7,21 @@ import { User } from '@/constants/data';
 import { Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { columns } from './columns';
+import { PriestClientProps } from '@/lib/priest-validation';
 
-type Parish = {
-  id: number;
-  name: string;
-};
-
-interface ParishClientProps {
-  data: Parish[];
-}
-
-export const ParishClient: React.FC<ParishClientProps> = ({ data }) => {
+export const PriestClient: React.FC<PriestClientProps> = ({ data }) => {
   const router = useRouter();
 
   return (
     <>
       <div className="flex items-start justify-between">
         <Heading
-          title={`Parish (${data.length})`}
-          description="Manage parishes (Client side table functionalities.)"
+          title={`Priest (${data.length})`}
+          description="Manage priest"
         />
         <Button
           className="text-xs md:text-sm"
-          onClick={() => router.push(`/dashboard/parish/new`)}
+          onClick={() => router.push(`/dashboard/priest/new`)}
         >
           <Plus className="mr-2 h-4 w-4" /> Add New
         </Button>

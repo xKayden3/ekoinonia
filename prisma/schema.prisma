@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  previewFeatures = ["fullTextSearch"]
+  previewFeatures = ["fullTextSearch", "relationJoins"]
 }
 
 datasource db {
@@ -20,18 +20,21 @@ model Parish {
   name     String   @db.VarChar(255)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  priest  Priest?
+  priest  Priest[]
   transaction_headers TransactionHeaders?
+  @@map("parish")
 }
 
 model Priest {
   id        Int      @id @default(autoincrement())
   name     String   @db.VarChar(255)
   parish    Parish @relation(fields: [parish_id], references: [id])
-  parish_id Int @unique
+  parish_id Int 
+  designation String @db.VarChar(255)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  transaction_headers TransactionHeaders?
+  transaction_headers TransactionHeaders[]
+  @@map("priest")
 }
 
 model Province {
@@ -41,6 +44,7 @@ model Province {
   updatedAt DateTime @updatedAt
   city      City?
   catholic  Catholic?
+  @@map("province")
 }
 
 model City {
@@ -52,6 +56,7 @@ model City {
   updatedAt DateTime @updatedAt
   barangay Barangay?
   catholic  Catholic?
+  @@map("city")
 }
 
 model Barangay {
@@ -62,6 +67,7 @@ model Barangay {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   catholic  Catholic?
+  @@map("barangay")
 }
 
 model Catholic{

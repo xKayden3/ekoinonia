@@ -87,7 +87,7 @@ export const ParishForm: React.FC<ParishFormProps> = ({ initialData }) => {
       }
 
       router.refresh();
-      router.push(`/dashboard/parish`);
+      // router.push(`/dashboard/parish`);
       toast({
         // variant: 'destructive',
         title: 'Data saved',

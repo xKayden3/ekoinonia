@@ -12,7 +12,7 @@ export async function createParish(formData: FormData) {
       name: name
     }
   });
-  // redirect('/dashboard/parish');
+  redirect('/dashboard/parish');
 }
 
 export async function updateParish(formData: FormData) {
