@@ -110,6 +110,20 @@ export type Employee = {
   profile_picture?: string | null; // Profile picture can be a string (URL) or null (if no picture)
 };
 
+export const navSettingsItems: NavItem[] = [
+  {
+    title: 'Parish',
+    href: '/dashboard/parish',
+    icon: 'church',
+    label: 'church'
+  },
+  {
+    title: 'Priest',
+    href: '/dashboard/priest',
+    icon: 'user',
+    label: 'user'
+  }
+];
 export const navItems: NavItem[] = [
   {
     title: 'Dashboard',
