@@ -43,7 +43,7 @@ export default async function Page(props: PriestProps) {
     );
   } else {
     const priestId = parseInt(props.params.priestId.toString());
-    const priest = await prisma.parish.findUnique({
+    const priest = await prisma.priest.findUnique({
       where: {
         id: priestId
       }

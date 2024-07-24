@@ -1,4 +1,5 @@
 'use client';
+import { deleteParish } from '@/app/(dashboard)/dashboard/parish/[parishId]/actions';
 import { AlertModal } from '@/components/modal/alert-modal';
 import { Button } from '@/components/ui/button';
 import {
@@ -27,7 +28,9 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
-  const onConfirm = async () => {};
+  const onConfirm = async () => {
+    await deleteParish(data.id);
+  };
 
   return (
     <>

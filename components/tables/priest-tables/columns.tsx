@@ -2,13 +2,20 @@
 import { Checkbox } from '@/components/ui/checkbox';
 import { ColumnDef } from '@tanstack/react-table';
 import { CellAction } from './cell-action';
+import { format } from 'date-fns';
+import { info } from 'console';
 
-type Parish = {
+type Priest = {
   id: number;
   name: string;
+  parish: {
+    name: string;
+  };
+  designation: string;
+  updatedAt: Date;
 };
 
-export const columns: ColumnDef<Parish>[] = [
+export const columns: ColumnDef<Priest>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -45,8 +52,11 @@ export const columns: ColumnDef<Parish>[] = [
     header: 'DESIGNATION'
   },
   {
-    accessorKey: 'updated_at',
-    header: 'UPDATED AT'
+    accessorKey: 'updatedAt',
+    header: 'UPDATED AT',
+    cell: ({ row }) => {
+      return <span>{format(row.original.updatedAt, 'dd MMM yyyy')}</span>;
+    }
   },
   {
     id: 'actions',

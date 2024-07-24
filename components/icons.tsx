@@ -4,6 +4,8 @@ import {
   Check,
   ChevronLeft,
   ChevronRight,
+  Church,
+  ChurchIcon,
   CircuitBoardIcon,
   Command,
   CreditCard,
@@ -60,6 +62,7 @@ export const Icons = {
   sun: SunMedium,
   moon: Moon,
   laptop: Laptop,
+  church: ChurchIcon,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"

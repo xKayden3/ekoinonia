@@ -37,6 +37,10 @@ import {
   CommandItem,
   CommandList
 } from '../ui/command';
+import {
+  createPriest,
+  updatePriest
+} from '@/app/(dashboard)/dashboard/priest/[priestId]/actions';
 
 interface PriestFormProps {
   initialData: any | null;
@@ -60,9 +64,9 @@ export const PriestForm: React.FC<PriestFormProps> = ({
   const defaultValues = initialData
     ? initialData
     : {
-        id: 0,
+        id: 1,
         name: '',
-        parishId: 0,
+        parish_id: 0,
         designation: ''
       };
 
@@ -72,20 +76,35 @@ export const PriestForm: React.FC<PriestFormProps> = ({
   });
 
   const onSubmit = async (data: PriestFormValues) => {
+    const formData = new FormData();
     try {
       setLoading(true);
       if (initialData) {
-        // await axios.post(`/api/products/edit-product/${initialData._id}`, data);
+        Object.entries(data).forEach(([key, value]) => {
+          if (value) {
+            formData.append(key, value);
+          }
+        });
+        await updatePriest(formData);
       } else {
-        // const res = await axios.post(`/api/products/create-product`, data);
-        // console.log("product", res);
+        Object.entries(data).forEach(([key, value]) => {
+          if (value) {
+            formData.append(key, value);
+          }
+        });
+        Object.entries(data).forEach(([key, value]) => {
+          if (value) {
+            formData.append(key, value);
+          }
+        });
+        await createPriest(formData);
       }
       router.refresh();
-      router.push(`/dashboard/products`);
+      router.push(`/dashboard/priest`);
       toast({
-        variant: 'destructive',
-        title: 'Uh oh! Something went wrong.',
-        description: 'There was a problem with your request.'
+        // variant: 'destructive',
+        title: 'Data saved',
+        description: 'Priest entry saved successfully'
       });
     } catch (error: any) {
       toast({
@@ -121,7 +140,7 @@ export const PriestForm: React.FC<PriestFormProps> = ({
       /> */}
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
-        {initialData && (
+        {/* {initialData && (
           <Button
             disabled={loading}
             variant="destructive"
@@ -130,7 +149,7 @@ export const PriestForm: React.FC<PriestFormProps> = ({
           >
             <Trash className="h-4 w-4" />
           </Button>
-        )}
+        )} */}
       </div>
       <Separator />
       <Form {...form}>
@@ -139,6 +158,19 @@ export const PriestForm: React.FC<PriestFormProps> = ({
           className="w-full space-y-8"
         >
           <div className="gap-8 md:grid md:grid-cols-3">
+            <FormField
+              control={form.control}
+              name="id"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Id</FormLabel>
+                  <FormControl>
+                    <Input type="number" disabled placeholder="Id" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="name"
@@ -158,7 +190,7 @@ export const PriestForm: React.FC<PriestFormProps> = ({
             />
             <FormField
               control={form.control}
-              name="parishId"
+              name="parish_id"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Parish</FormLabel>
@@ -224,11 +256,11 @@ export const PriestForm: React.FC<PriestFormProps> = ({
               name="designation"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>Designation</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Product description"
+                      placeholder="Designation"
                       {...field}
                     />
                   </FormControl>

@@ -117,17 +117,17 @@ export const navItems: NavItem[] = [
     icon: 'dashboard',
     label: 'Dashboard'
   },
-  {
-    title: 'User',
-    href: '/dashboard/user',
-    icon: 'user',
-    label: 'user'
-  },
+  // {
+  //   title: 'User',
+  //   href: '/dashboard/user',
+  //   icon: 'user',
+  //   label: 'user'
+  // },
   {
     title: 'Parish',
     href: '/dashboard/parish',
-    icon: 'employee',
-    label: 'employee'
+    icon: 'church',
+    label: 'church'
   },
   {
     title: 'Priest',
@@ -135,24 +135,24 @@ export const navItems: NavItem[] = [
     icon: 'user',
     label: 'user'
   },
-  {
-    title: 'Employee',
-    href: '/dashboard/employee',
-    icon: 'employee',
-    label: 'employee'
-  },
-  {
-    title: 'Profile',
-    href: '/dashboard/profile',
-    icon: 'profile',
-    label: 'profile'
-  },
-  {
-    title: 'Kanban',
-    href: '/dashboard/kanban',
-    icon: 'kanban',
-    label: 'kanban'
-  },
+  // {
+  //   title: 'Employee',
+  //   href: '/dashboard/employee',
+  //   icon: 'employee',
+  //   label: 'employee'
+  // },
+  // {
+  //   title: 'Profile',
+  //   href: '/dashboard/profile',
+  //   icon: 'profile',
+  //   label: 'profile'
+  // },
+  // {
+  //   title: 'Kanban',
+  //   href: '/dashboard/kanban',
+  //   icon: 'kanban',
+  //   label: 'kanban'
+  // },
   {
     title: 'Login',
     href: '/',

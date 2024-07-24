@@ -31,7 +31,7 @@ export const priestFormSchema = z.object({
   name: z
     .string()
     .min(3, { message: 'Product Name must be at least 3 characters' }),
-  parishId: z.number(),
+  parish_id: z.coerce.number().min(1, { message: 'Must select a Parish' }),
   designation: z
     .string()
     .min(3, { message: 'Product Name must be at least 3 characters' })

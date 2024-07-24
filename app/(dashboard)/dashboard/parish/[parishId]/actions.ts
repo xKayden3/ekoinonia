@@ -1,6 +1,7 @@
 'use server';
 import { createParishSchema } from '@/lib/parish-validation';
 import prisma from '@/lib/prisma';
+import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 export async function createParish(formData: FormData) {
@@ -31,4 +32,21 @@ export async function updateParish(formData: FormData) {
     }
     return { error: message };
   }
+}
+
+export async function deleteParish(parish_id: number) {
+  try {
+    await prisma.parish.delete({
+      where: { id: parish_id }
+    });
+
+    revalidatePath('/dashboard/parish');
+  } catch (error) {
+    let message = 'Unexpected error';
+    if (error instanceof Error) {
+      message = error.message;
+    }
+    return { error: message };
+  }
+  redirect('/dashboard/parish');
 }
