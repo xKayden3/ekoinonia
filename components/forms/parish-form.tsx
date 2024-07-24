@@ -177,8 +177,6 @@ export const ParishForm: React.FC<ParishFormProps> = ({ initialData }) => {
                 </FormItem>
               )}
             />
-          </div>
-          <div className="gap-8 md:grid md:grid-cols-3">
             <FormField
               control={form.control}
               name="name"
