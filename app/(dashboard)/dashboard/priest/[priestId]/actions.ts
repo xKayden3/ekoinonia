@@ -11,7 +11,7 @@ export async function createPriest(formData: FormData) {
   await prisma.priest.create({
     data: {
       name: name,
-      parish_id: parish_id,
+      parish_id: Number(parish_id),
       designation: designation
     }
   });

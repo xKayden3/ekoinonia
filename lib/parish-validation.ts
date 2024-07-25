@@ -13,7 +13,6 @@ import { number, z } from 'zod';
 // });
 export const IMG_MAX_LIMIT = 3;
 export const createParishSchema = z.object({
-  id: z.coerce.number(),
   name: z
     .string()
     .min(3, { message: 'Parish Name must be at least 3 characters' })
