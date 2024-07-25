@@ -6,25 +6,26 @@ import { redirect } from 'next/navigation';
 
 export async function createParish(formData: FormData) {
   const values = Object.fromEntries(formData.entries());
-  const { id, name } = createParishSchema.parse(values);
+  const { name } = createParishSchema.parse(values);
 
   await prisma.parish.create({
     data: {
       name: name
     }
   });
-  //redirect('/dashboard/parish');
+  redirect('/dashboard/parish');
 }
 
-export async function updateParish(formData: FormData) {
+export async function updateParish(parish_id: string, formData: FormData) {
   try {
-    const parishId = parseInt(formData.get('id') as string);
+    //const parishId = parseInt(formData.get('id') as string);
     const name = formData.get('name') as string;
 
     await prisma.parish.update({
-      where: { id: parishId },
+      where: { id: Number(parish_id) },
       data: { name: name }
     });
+    revalidatePath('/dashboard/parish');
   } catch (error) {
     let message = 'Unexpected error';
     if (error instanceof Error) {
@@ -32,6 +33,7 @@ export async function updateParish(formData: FormData) {
     }
     return { error: message };
   }
+  redirect('/dashboard/parish');
 }
 
 export async function deleteParish(parish_id: number) {

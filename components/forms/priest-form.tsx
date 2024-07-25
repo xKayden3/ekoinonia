@@ -64,7 +64,6 @@ export const PriestForm: React.FC<PriestFormProps> = ({
   const defaultValues = initialData
     ? initialData
     : {
-        id: 1,
         name: '',
         parish_id: 0,
         designation: ''
@@ -85,7 +84,7 @@ export const PriestForm: React.FC<PriestFormProps> = ({
             formData.append(key, value);
           }
         });
-        await updatePriest(formData);
+        await updatePriest(initialData.id, formData);
       } else {
         Object.entries(data).forEach(([key, value]) => {
           if (value) {
@@ -99,8 +98,6 @@ export const PriestForm: React.FC<PriestFormProps> = ({
         });
         await createPriest(formData);
       }
-      router.refresh();
-      router.push(`/dashboard/priest`);
       toast({
         // variant: 'destructive',
         title: 'Data saved',
@@ -158,7 +155,7 @@ export const PriestForm: React.FC<PriestFormProps> = ({
           className="w-full space-y-8"
         >
           <div className="gap-8 md:grid md:grid-cols-3">
-            <FormField
+            {/* <FormField
               control={form.control}
               name="id"
               render={({ field }) => (
@@ -170,7 +167,7 @@ export const PriestForm: React.FC<PriestFormProps> = ({
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             <FormField
               control={form.control}
               name="name"
@@ -225,7 +222,7 @@ export const PriestForm: React.FC<PriestFormProps> = ({
                                 value={parish.id}
                                 key={parish.id}
                                 onSelect={() => {
-                                  form.setValue('parishId', parish.id);
+                                  form.setValue('parish_id', parish.id);
                                 }}
                               >
                                 <Check

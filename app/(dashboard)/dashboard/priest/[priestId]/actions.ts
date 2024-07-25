@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation';
 
 export async function createPriest(formData: FormData) {
   const values = Object.fromEntries(formData.entries());
-  const { id, name, parish_id, designation } = priestFormSchema.parse(values);
+  const { name, parish_id, designation } = priestFormSchema.parse(values);
 
   await prisma.priest.create({
     data: {
@@ -18,21 +18,21 @@ export async function createPriest(formData: FormData) {
   redirect('/dashboard/priest');
 }
 
-export async function updatePriest(formData: FormData) {
+export async function updatePriest(priest_id: string, formData: FormData) {
   try {
-    const priestId = parseInt(formData.get('id') as string);
     const name = formData.get('name') as string;
     const parish_id = formData.get('parish_id') as string;
     const designation = formData.get('designation') as string;
 
     await prisma.priest.update({
-      where: { id: priestId },
+      where: { id: Number(priest_id) },
       data: {
         name: name,
         parish_id: Number(parish_id),
         designation: designation
       }
     });
+    revalidatePath('/dashboard/priest');
   } catch (error) {
     let message = 'Unexpected error';
     if (error instanceof Error) {
@@ -40,6 +40,7 @@ export async function updatePriest(formData: FormData) {
     }
     return { error: message };
   }
+  redirect('/dashboard/priest');
 }
 
 export async function deletePriest(priest_id: number) {

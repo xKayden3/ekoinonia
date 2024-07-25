@@ -52,7 +52,6 @@ export const ParishForm: React.FC<ParishFormProps> = ({ initialData }) => {
   const defaultValues = initialData
     ? initialData
     : {
-        id: 1,
         name: ''
         // description: '',
         // price: 0,
@@ -76,7 +75,7 @@ export const ParishForm: React.FC<ParishFormProps> = ({ initialData }) => {
             formData.append(key, value);
           }
         });
-        await updateParish(formData);
+        await updateParish(initialData.id, formData);
       } else {
         Object.entries(data).forEach(([key, value]) => {
           if (value) {
@@ -86,8 +85,8 @@ export const ParishForm: React.FC<ParishFormProps> = ({ initialData }) => {
         await createParish(formData);
       }
 
-      router.refresh();
-      router.push(`/dashboard/parish`);
+      // router.refresh();
+      // router.push(`/dashboard/parish`);
       toast({
         // variant: 'destructive',
         title: 'Data saved',
@@ -164,7 +163,7 @@ export const ParishForm: React.FC<ParishFormProps> = ({ initialData }) => {
             )}
           /> */}
           <div className="gap-8 md:grid md:grid-cols-3">
-            <FormField
+            {/* <FormField
               control={form.control}
               name="id"
               render={({ field }) => (
@@ -176,7 +175,7 @@ export const ParishForm: React.FC<ParishFormProps> = ({ initialData }) => {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             <FormField
               control={form.control}
               name="name"
