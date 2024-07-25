@@ -204,7 +204,7 @@ export const PriestForm: React.FC<PriestFormProps> = ({
                         >
                           {field.value
                             ? parishes.find(
-                                (parish) => parish.id === field.value
+                                (parish: any) => parish.id === field.value
                               )?.name
                             : 'Select parish'}
                           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -217,7 +217,7 @@ export const PriestForm: React.FC<PriestFormProps> = ({
                         <CommandList>
                           <CommandEmpty>No parish found.</CommandEmpty>
                           <CommandGroup>
-                            {parishes?.map((parish) => (
+                            {parishes?.map((parish: any) => (
                               <CommandItem
                                 value={parish.id}
                                 key={parish.id}
