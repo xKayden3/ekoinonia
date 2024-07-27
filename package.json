@@ -9,7 +9,7 @@
     "lint": "next lint",
     "format": "prettier . --write",
     "prepare": "husky",
-    "postinstall": "prisma generate && prisma migrate deploy"
+    "postinstall": "prisma generate"
   },
   "lint-staged": {
     "**/*": [
