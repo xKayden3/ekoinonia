@@ -15,6 +15,8 @@ export async function createPriest(formData: FormData) {
       designation: designation
     }
   });
+
+  revalidatePath('/dashboard/priest');
   redirect('/dashboard/priest');
 }
 
@@ -40,6 +42,7 @@ export async function updatePriest(priest_id: string, formData: FormData) {
     }
     return { error: message };
   }
+
   redirect('/dashboard/priest');
 }
 
@@ -48,7 +51,6 @@ export async function deletePriest(priest_id: number) {
     await prisma.priest.delete({
       where: { id: priest_id }
     });
-
     revalidatePath('/dashboard/priest');
   } catch (error) {
     let message = 'Unexpected error';

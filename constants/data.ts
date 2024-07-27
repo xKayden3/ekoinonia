@@ -110,20 +110,20 @@ export type Employee = {
   profile_picture?: string | null; // Profile picture can be a string (URL) or null (if no picture)
 };
 
-export const navSettingsItems: NavItem[] = [
-  {
-    title: 'Parish',
-    href: '/dashboard/parish',
-    icon: 'church',
-    label: 'church'
-  },
-  {
-    title: 'Priest',
-    href: '/dashboard/priest',
-    icon: 'user',
-    label: 'user'
-  }
-];
+// export const navSettingsItems: NavItem[] = [
+//   {
+//     title: 'Parish',
+//     href: '/dashboard/parish',
+//     icon: 'church',
+//     label: 'church'
+//   },
+//   {
+//     title: 'Priest',
+//     href: '/dashboard/priest',
+//     icon: 'user',
+//     label: 'user'
+//   }
+// ];
 export const navItems: NavItem[] = [
   {
     title: 'Dashboard',
@@ -149,18 +149,24 @@ export const navItems: NavItem[] = [
     icon: 'user',
     label: 'user'
   },
-  // {
-  //   title: 'Employee',
-  //   href: '/dashboard/employee',
-  //   icon: 'employee',
-  //   label: 'employee'
-  // },
-  // {
-  //   title: 'Profile',
-  //   href: '/dashboard/profile',
-  //   icon: 'profile',
-  //   label: 'profile'
-  // },
+  {
+    title: 'Province',
+    href: '/dashboard/province',
+    icon: 'map',
+    label: 'map'
+  },
+  {
+    title: 'City',
+    href: '/dashboard/city',
+    icon: 'map',
+    label: 'city'
+  },
+  {
+    title: 'Barangay',
+    href: '/dashboard/barangay',
+    icon: 'map',
+    label: 'city'
+  },
   // {
   //   title: 'Kanban',
   //   href: '/dashboard/kanban',

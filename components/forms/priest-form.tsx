@@ -21,7 +21,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Check, ChevronsUpDown, Trash } from 'lucide-react';
-import { useParams, useRouter } from 'next/navigation';
+import { redirect, useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import FileUpload from '../file-upload';
@@ -39,8 +39,11 @@ import {
 } from '../ui/command';
 import {
   createPriest,
+  deletePriest,
   updatePriest
 } from '@/app/(dashboard)/dashboard/priest/[priestId]/actions';
+import { revalidatePath } from 'next/cache';
+import { AlertModal } from '../modal/alert-modal';
 
 interface PriestFormProps {
   initialData: any | null;
@@ -117,9 +120,7 @@ export const PriestForm: React.FC<PriestFormProps> = ({
   const onDelete = async () => {
     try {
       setLoading(true);
-      //   await axios.delete(`/api/${params.storeId}/products/${params.productId}`);
-      router.refresh();
-      router.push(`/${params.storeId}/products`);
+      await deletePriest(initialData.id);
     } catch (error: any) {
     } finally {
       setLoading(false);
@@ -129,12 +130,12 @@ export const PriestForm: React.FC<PriestFormProps> = ({
 
   return (
     <>
-      {/* <AlertModal
+      <AlertModal
         isOpen={open}
         onClose={() => setOpen(false)}
         onConfirm={onDelete}
         loading={loading}
-      /> */}
+      />
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
         {/* {initialData && (

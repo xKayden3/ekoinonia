@@ -14,6 +14,12 @@ export interface PriestClientProps {
   data: Priest[];
 }
 
+// for string
+const requiredString = z.coerce.string().min(1, 'Required');
+
+// for numeric
+const numericRequiredString = requiredString.regex(/^\d+$/, 'Must be a number');
+
 const ImgSchema = z.object({
   fileName: z.string(),
   name: z.string(),
@@ -30,7 +36,7 @@ export const priestFormSchema = z.object({
   name: z
     .string()
     .min(3, { message: 'Product Name must be at least 3 characters' }),
-  parish_id: z.string().min(1, { message: 'Must select a Parish' }),
+  parish_id: numericRequiredString,
   designation: z
     .string()
     .min(3, { message: 'Product Name must be at least 3 characters' })

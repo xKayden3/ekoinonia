@@ -13,6 +13,7 @@ export async function createParish(formData: FormData) {
       name: name
     }
   });
+  revalidatePath('/dashboard/parish');
   redirect('/dashboard/parish');
 }
 
@@ -33,6 +34,7 @@ export async function updateParish(parish_id: string, formData: FormData) {
     }
     return { error: message };
   }
+
   redirect('/dashboard/parish');
 }
 
@@ -41,7 +43,6 @@ export async function deleteParish(parish_id: number) {
     await prisma.parish.delete({
       where: { id: parish_id }
     });
-
     revalidatePath('/dashboard/parish');
   } catch (error) {
     let message = 'Unexpected error';

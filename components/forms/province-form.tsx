@@ -17,39 +17,34 @@ import {
 } from '@/components/ui/form';
 import { Separator } from '@/components/ui/separator';
 import { Heading } from '@/components/ui/heading';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
 // import FileUpload from "@/components/FileUpload";
 import { useToast } from '../ui/use-toast';
-import { createParishSchema, ParishFormValues } from '@/lib/parish-validation';
 import {
-  createParish,
-  deleteParish,
-  updateParish
-} from '@/app/(dashboard)/dashboard/parish/[parishId]/actions';
+  provinceFormSchema,
+  ProvinceFormValues
+} from '@/lib/province-validation';
 import { revalidatePath } from 'next/cache';
+import {
+  createProvince,
+  deleteProvince,
+  updateProvince
+} from '@/app/(dashboard)/dashboard/province/actions';
 import { AlertModal } from '../modal/alert-modal';
 
-interface ParishFormProps {
+interface ProvinceFormProps {
   initialData: any | null;
 }
 
-export const ParishForm: React.FC<ParishFormProps> = ({ initialData }) => {
+export const ProvinceForm: React.FC<ProvinceFormProps> = ({ initialData }) => {
   const params = useParams();
   const router = useRouter();
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   // const [imgLoading, setImgLoading] = useState(false);
-  const title = initialData ? 'Edit parish' : 'Create parish';
-  const description = initialData ? 'Edit a parish.' : 'Add a new parish';
-  const toastMessage = initialData ? 'Parish updated.' : 'Parish created.';
+  const title = initialData ? 'Edit province' : 'Create province';
+  const description = initialData ? 'Edit a province.' : 'Add a new province';
+  const toastMessage = initialData ? 'Province updated.' : 'Province created.';
   const action = initialData ? 'Save changes' : 'Create';
 
   const defaultValues = initialData
@@ -62,12 +57,12 @@ export const ParishForm: React.FC<ParishFormProps> = ({ initialData }) => {
         // category: ''
       };
 
-  const form = useForm<ParishFormValues>({
-    resolver: zodResolver(createParishSchema),
+  const form = useForm<ProvinceFormValues>({
+    resolver: zodResolver(provinceFormSchema),
     defaultValues
   });
 
-  const onSubmit = async (data: ParishFormValues) => {
+  const onSubmit = async (data: ProvinceFormValues) => {
     const formData = new FormData();
 
     try {
@@ -78,20 +73,23 @@ export const ParishForm: React.FC<ParishFormProps> = ({ initialData }) => {
             formData.append(key, value);
           }
         });
-        await updateParish(initialData.id, formData);
+        await updateProvince(initialData.id, formData);
       } else {
         Object.entries(data).forEach(([key, value]) => {
           if (value) {
             formData.append(key, value);
           }
         });
-        await createParish(formData);
+        await createProvince(formData);
       }
       toast({
         // variant: 'destructive',
         title: 'Data saved',
-        description: 'Parish entry saved successfully'
+        description: 'Province entry saved successfully'
       });
+
+      // router.refresh();
+      // router.push(`/dashboard/parish`);
     } catch (error: any) {
       toast({
         // variant: 'destructive',
@@ -106,7 +104,7 @@ export const ParishForm: React.FC<ParishFormProps> = ({ initialData }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await deleteParish(initialData.id);
+      await deleteProvince(initialData.id);
     } catch (error: any) {
     } finally {
       setLoading(false);
@@ -179,11 +177,11 @@ export const ParishForm: React.FC<ParishFormProps> = ({ initialData }) => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Province</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Parish name"
+                      placeholder="Province name"
                       {...field}
                     />
                   </FormControl>

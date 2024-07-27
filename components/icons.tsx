@@ -19,6 +19,7 @@ import {
   LogIn,
   LucideIcon,
   LucideProps,
+  MapIcon,
   Moon,
   MoreVertical,
   Pizza,
@@ -63,6 +64,7 @@ export const Icons = {
   moon: Moon,
   laptop: Laptop,
   church: ChurchIcon,
+  map: MapIcon,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"
