@@ -11,7 +11,7 @@ import { number, z } from 'zod';
 //   fileUrl: z.string(),
 //   url: z.string()
 // });
-export const IMG_MAX_LIMIT = 3;
+// export const IMG_MAX_LIMIT = 3;
 export const createParishSchema = z.object({
   name: z
     .string()

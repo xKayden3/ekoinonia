@@ -7,7 +7,7 @@ import React from 'react';
 const breadcrumbItems = [
   { title: 'Dashboard', link: '/dashboard' },
   { title: 'Parish', link: '/dashboard/parish' },
-  { title: 'Create', link: '/dashboard/parish/parish' }
+  { title: 'Create', link: '/dashboard/parish/new' }
 ];
 
 interface ParishProps {

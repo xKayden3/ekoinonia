@@ -3,14 +3,10 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { ColumnDef } from '@tanstack/react-table';
 import { CellAction } from './cell-action';
 import { format } from 'date-fns';
+import { info } from 'console';
+import { City } from '@/lib/city-validation';
 
-type Parish = {
-  id: number;
-  name: string;
-  updatedAt: Date;
-};
-
-export const columns: ColumnDef<Parish>[] = [
+export const columns: ColumnDef<City>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -37,6 +33,10 @@ export const columns: ColumnDef<Parish>[] = [
   {
     accessorKey: 'name',
     header: 'NAME'
+  },
+  {
+    accessorKey: 'province.name',
+    header: 'PROVINCE'
   },
   {
     accessorKey: 'updatedAt',

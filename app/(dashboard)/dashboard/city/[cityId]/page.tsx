@@ -1,58 +1,57 @@
 import { Breadcrumbs } from '@/components/breadcrumbs';
-import { ParishForm } from '@/components/forms/parish-form';
-import { PriestForm } from '@/components/forms/priest-form';
+import { CityForm } from '@/components/forms/city-form';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import prisma from '@/lib/prisma';
 import React from 'react';
 
 const breadcrumbItems = [
   { title: 'Dashboard', link: '/dashboard' },
-  { title: 'Priest', link: '/dashboard/priest' },
-  { title: 'Create', link: '/dashboard/priest/new' }
+  { title: 'City', link: '/dashboard/city' },
+  { title: 'Create', link: '/dashboard/city/new' }
 ];
 
-interface PriestProps {
+interface CityProps {
   params: {
-    priestId: any;
+    cityId: any;
   };
 }
 
-interface Parishes {
+interface Province {
   id: number;
   name: string;
 }
 
-export default async function Page(props: PriestProps) {
-  const results = await prisma.parish.findMany({
+export default async function Page(props: CityProps) {
+  const results = await prisma.province.findMany({
     select: {
       id: true,
       name: true
     }
   });
 
-  const parishes: Parishes[] = results;
+  const province: Province[] = results;
 
-  if (props.params.priestId == 'new') {
+  if (props.params.cityId == 'new') {
     return (
       <ScrollArea className="h-full">
         <div className="flex-1 space-y-4 p-8">
           <Breadcrumbs items={breadcrumbItems} />
-          <PriestForm parishes={parishes} initialData={null} key={null} />
+          <CityForm provinces={province} initialData={null} key={null} />
         </div>
       </ScrollArea>
     );
   } else {
-    const priestId = parseInt(props.params.priestId.toString());
-    const priest = await prisma.priest.findUnique({
+    const city_id = parseInt(props.params.cityId);
+    const city = await prisma.city.findUnique({
       where: {
-        id: priestId
+        id: city_id
       }
     });
     return (
       <ScrollArea className="h-full">
         <div className="flex-1 space-y-4 p-8">
           <Breadcrumbs items={breadcrumbItems} />
-          <PriestForm parishes={parishes} initialData={priest} key={null} />
+          <CityForm provinces={province} initialData={city} key={null} />
         </div>
       </ScrollArea>
     );

@@ -9,18 +9,13 @@ import React from 'react';
 const breadcrumbItems = [
   { title: 'Dashboard', link: '/dashboard' },
   { title: 'Province', link: '/dashboard/province' },
-  { title: 'Create', link: '/dashboard/parish/province' }
+  { title: 'Create', link: '/dashboard/province/new' }
 ];
 
 interface ProvinceProps {
   params: {
     provinceId: any;
   };
-}
-
-interface Provinces {
-  id: number;
-  name: string;
 }
 
 export default async function Page(props: ProvinceProps) {
