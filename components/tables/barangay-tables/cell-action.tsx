@@ -1,5 +1,5 @@
 'use client';
-import { deletePriest } from '@/app/(dashboard)/dashboard/priest/[priestId]/actions';
+import { deleteCity } from '@/app/(dashboard)/dashboard/city/actions';
 import { AlertModal } from '@/components/modal/alert-modal';
 import { Button } from '@/components/ui/button';
 import {
@@ -13,13 +13,13 @@ import { Edit, MoreHorizontal, Trash } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-type Province = {
+type City = {
   id: number;
   name: string;
 };
 
 interface CellActionProps {
-  data: Province;
+  data: City;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
@@ -28,7 +28,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const router = useRouter();
 
   const onConfirm = async () => {
-    await deletePriest(data.id);
+    await deleteCity(data.id);
   };
 
   return (
@@ -50,7 +50,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
           <DropdownMenuItem
-            onClick={() => router.push(`/dashboard/city/${data.id}`)}
+            onClick={() => router.push(`/dashboard/barangay/${data.id}`)}
           >
             <Edit className="mr-2 h-4 w-4" /> Update
           </DropdownMenuItem>

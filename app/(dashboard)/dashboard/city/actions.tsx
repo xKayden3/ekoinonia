@@ -21,11 +21,13 @@ export async function createCity(formData: FormData) {
 export async function updateCity(city_id: string, formData: FormData) {
   try {
     //const parishId = parseInt(formData.get('id') as string);
+
     const name = formData.get('name') as string;
+    const province_id = formData.get('province_id') as string;
 
     await prisma.city.update({
       where: { id: Number(city_id) },
-      data: { name: name }
+      data: { name: name, province_id: Number(province_id) }
     });
     revalidatePath('/dashboard/city');
   } catch (error) {

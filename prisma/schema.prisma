@@ -54,7 +54,7 @@ model City {
   id          Int        @id @default(autoincrement())
   name        String     @db.VarChar(255)
   province    Province   @relation(fields: [province_id], references: [id])
-  province_id Int        @unique
+  province_id Int
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
   barangays   Barangay[]
@@ -67,7 +67,7 @@ model Barangay {
   id        Int        @id @default(autoincrement())
   name      String     @db.VarChar(255)
   city      City       @relation(fields: [city_id], references: [id])
-  city_id   Int        @unique
+  city_id   Int
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   catholics Catholic[]
@@ -86,11 +86,11 @@ model Catholic {
   gender            String             @db.VarChar(255)
   address           String             @db.VarChar(255)
   province          Province           @relation(fields: [province_id], references: [id])
-  province_id       Int                @unique
+  province_id       Int
   city              City               @relation(fields: [city_id], references: [id])
-  city_id           Int                @unique
+  city_id           Int
   barangay          Barangay           @relation(fields: [barangay_id], references: [id])
-  barangay_id       Int                @unique
+  barangay_id       Int
   mobile            String             @db.VarChar(255)
   email             String             @db.VarChar(255)
   transaction_names TransactionNames[]
@@ -122,11 +122,11 @@ model TransactionHeaders {
   transaction_number  Int
   transaction_date    DateTime
   transaction_type    TransactionType @relation(fields: [transaction_type_id], references: [id])
-  transaction_type_id Int             @unique
+  transaction_type_id Int
   parish              Parish          @relation(fields: [parish_id], references: [id])
-  parish_id           Int             @unique
+  parish_id           Int
   priest              Priest          @relation(fields: [priest_id], references: [id])
-  priest_id           Int             @unique
+  priest_id           Int
 
   //userId  Int @unique
 
@@ -144,9 +144,9 @@ model TransactionHeaders {
 model TransactionNames {
   id                    Int                @id @default(autoincrement())
   transaction_headers   TransactionHeaders @relation(fields: [transaction_header_id], references: [id])
-  transaction_header_id Int                @unique
+  transaction_header_id Int
   catholic              Catholic           @relation(fields: [catholic_id], references: [id])
-  catholic_id           Int                @unique
+  catholic_id           Int
   name                  String             @db.VarChar(255)
 
   @@map("transaction_names")

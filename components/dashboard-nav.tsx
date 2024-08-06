@@ -32,7 +32,7 @@ export function DashboardNav({
   if (!items?.length) {
     return null;
   }
-  console.log(items);
+
   // console.log('isActive', isMobileNav, isMinimized);
 
   return (

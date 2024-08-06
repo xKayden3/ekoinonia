@@ -24,9 +24,7 @@ import { Check, ChevronsUpDown, Trash } from 'lucide-react';
 import { redirect, useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import FileUpload from '../file-upload';
 import { useToast } from '../ui/use-toast';
-import { priestFormSchema, PriestFormValues } from '@/lib/priest-validation';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { cn } from '@/lib/utils';
 import {
@@ -37,46 +35,49 @@ import {
   CommandItem,
   CommandList
 } from '../ui/command';
-import {
-  createPriest,
-  deletePriest,
-  updatePriest
-} from '@/app/(dashboard)/dashboard/priest/[priestId]/actions';
 import { AlertModal } from '../modal/alert-modal';
+import {
+  barangayFormSchema,
+  BarangayFormValues
+} from '@/lib/barangay-validation';
+import {
+  createBarangay,
+  deleteBarangay,
+  updateBarangay
+} from '@/app/(dashboard)/dashboard/barangay/actions';
 
-interface PriestFormProps {
+interface BarangayFormProps {
   initialData: any | null;
-  parishes: any;
+  cities: any;
 }
 
-export const PriestForm: React.FC<PriestFormProps> = ({
+export const BarangayForm: React.FC<BarangayFormProps> = ({
   initialData,
-  parishes
+  cities
 }) => {
   const params = useParams();
   const router = useRouter();
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const title = initialData ? 'Edit priest' : 'Create priest';
-  const description = initialData ? 'Edit a priest.' : 'Add a new priest';
-  const toastMessage = initialData ? 'Priest updated.' : 'Priest created.';
+  const title = initialData ? 'Edit barangay' : 'Create barangay';
+  const description = initialData ? 'Edit a barangay.' : 'Add a new barangay';
+  const toastMessage = initialData ? 'Barangay updated.' : 'Barangay created.';
   const action = initialData ? 'Save changes' : 'Create';
 
   const defaultValues = initialData
     ? initialData
     : {
         name: '',
-        parish_id: 0,
-        designation: ''
+        city_id: 0
       };
 
-  const form = useForm<PriestFormValues>({
-    resolver: zodResolver(priestFormSchema),
+  const form = useForm<BarangayFormValues>({
+    resolver: zodResolver(barangayFormSchema),
     defaultValues
   });
 
-  const onSubmit = async (data: PriestFormValues) => {
+  const onSubmit = async (data: BarangayFormValues) => {
     const formData = new FormData();
     try {
       setLoading(true);
@@ -86,19 +87,19 @@ export const PriestForm: React.FC<PriestFormProps> = ({
             formData.append(key, value);
           }
         });
-        await updatePriest(initialData.id, formData);
+        await updateBarangay(initialData.id, formData);
       } else {
         Object.entries(data).forEach(([key, value]) => {
           if (value) {
             formData.append(key, value);
           }
         });
-        await createPriest(formData);
+        await createBarangay(formData);
       }
       toast({
         // variant: 'destructive',
         title: 'Data saved',
-        description: 'Priest entry saved successfully'
+        description: 'Barangay entry saved successfully'
       });
     } catch (error: any) {
       toast({
@@ -114,7 +115,7 @@ export const PriestForm: React.FC<PriestFormProps> = ({
   const onDelete = async () => {
     try {
       setLoading(true);
-      await deletePriest(initialData.id);
+      await deleteBarangay(initialData.id);
     } catch (error: any) {
     } finally {
       setLoading(false);
@@ -168,24 +169,27 @@ export const PriestForm: React.FC<PriestFormProps> = ({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Barangay</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Priest name"
+                      placeholder="Barangay name"
                       {...field}
                     />
                   </FormControl>
+                  <FormDescription>
+                    Input barangay display name.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <FormField
               control={form.control}
-              name="parish_id"
+              name="city_id"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Parish</FormLabel>
+                  <FormLabel>City</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -198,37 +202,37 @@ export const PriestForm: React.FC<PriestFormProps> = ({
                           )}
                         >
                           {field.value
-                            ? parishes.find(
-                                (parish: any) => parish.id === field.value
+                            ? cities.find(
+                                (cities: any) => cities.id === field.value
                               )?.name
-                            : 'Select parish'}
+                            : 'Select city'}
                           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
                     <PopoverContent className="w-full p-0">
                       <Command>
-                        <CommandInput placeholder="Search parish..." />
+                        <CommandInput placeholder="Search city..." />
                         <CommandList>
-                          <CommandEmpty>No parish found.</CommandEmpty>
+                          <CommandEmpty>No city found.</CommandEmpty>
                           <CommandGroup>
-                            {parishes?.map((parish: any) => (
+                            {cities?.map((city: any) => (
                               <CommandItem
-                                value={parish.id}
-                                key={parish.id}
+                                value={city.id}
+                                key={city.id}
                                 onSelect={() => {
-                                  form.setValue('parish_id', parish.id);
+                                  form.setValue('city_id', city.id);
                                 }}
                               >
                                 <Check
                                   className={cn(
                                     'mr-2 h-4 w-4',
-                                    parish.id === field.value
+                                    city.id === field.value
                                       ? 'opacity-100'
                                       : 'opacity-0'
                                   )}
                                 />
-                                {parish.name}
+                                {city.name}
                               </CommandItem>
                             ))}
                           </CommandGroup>
@@ -236,26 +240,7 @@ export const PriestForm: React.FC<PriestFormProps> = ({
                       </Command>
                     </PopoverContent>
                   </Popover>
-                  {/* <FormDescription>
-                    This is the language that will be used in the dashboard.
-                  </FormDescription> */}
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="designation"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Designation</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="Designation"
-                      {...field}
-                    />
-                  </FormControl>
+                  <FormDescription>Search from list of cities.</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

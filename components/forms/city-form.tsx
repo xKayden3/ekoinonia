@@ -59,9 +59,9 @@ export const CityForm: React.FC<CityFormProps> = ({
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const title = initialData ? 'Edit priest' : 'Create priest';
-  const description = initialData ? 'Edit a priest.' : 'Add a new priest';
-  const toastMessage = initialData ? 'Priest updated.' : 'Priest created.';
+  const title = initialData ? 'Edit city' : 'Create city';
+  const description = initialData ? 'Edit a city.' : 'Add a new city';
+  const toastMessage = initialData ? 'City updated.' : 'City created.';
   const action = initialData ? 'Save changes' : 'Create';
 
   const defaultValues = initialData
@@ -88,11 +88,6 @@ export const CityForm: React.FC<CityFormProps> = ({
         });
         await updateCity(initialData.id, formData);
       } else {
-        Object.entries(data).forEach(([key, value]) => {
-          if (value) {
-            formData.append(key, value);
-          }
-        });
         Object.entries(data).forEach(([key, value]) => {
           if (value) {
             formData.append(key, value);
@@ -181,6 +176,7 @@ export const CityForm: React.FC<CityFormProps> = ({
                       {...field}
                     />
                   </FormControl>
+                  <FormDescription>Input city display name.</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -206,14 +202,14 @@ export const CityForm: React.FC<CityFormProps> = ({
                             ? provinces.find(
                                 (provinces: any) => provinces.id === field.value
                               )?.name
-                            : 'Select parish'}
+                            : 'Select province'}
                           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
                     <PopoverContent className="w-full p-0">
                       <Command>
-                        <CommandInput placeholder="Search parish..." />
+                        <CommandInput placeholder="Search province..." />
                         <CommandList>
                           <CommandEmpty>No province found.</CommandEmpty>
                           <CommandGroup>
@@ -241,9 +237,9 @@ export const CityForm: React.FC<CityFormProps> = ({
                       </Command>
                     </PopoverContent>
                   </Popover>
-                  {/* <FormDescription>
-                    This is the language that will be used in the dashboard.
-                  </FormDescription> */}
+                  <FormDescription>
+                    Search from list of provinces.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
